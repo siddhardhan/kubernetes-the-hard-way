@@ -12,11 +12,11 @@ Generate a kubeconfig file suitable for authenticating as the `admin` user:
 
 ```
 {
-  KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes-the-hard-way \
+  KUBERNETES_PUBLIC_ADDRESS=$(gcloud compute addresses describe kubernetes-using-kubeadm \
     --region $(gcloud config get-value compute/region) \
     --format 'value(address)')
 
-  kubectl config set-cluster kubernetes-the-hard-way \
+  kubectl config set-cluster kubernetes-using-kubeadm \
     --certificate-authority=ca.pem \
     --embed-certs=true \
     --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443
@@ -25,11 +25,11 @@ Generate a kubeconfig file suitable for authenticating as the `admin` user:
     --client-certificate=admin.pem \
     --client-key=admin-key.pem
 
-  kubectl config set-context kubernetes-the-hard-way \
-    --cluster=kubernetes-the-hard-way \
+  kubectl config set-context kubernetes-using-kubeadm \
+    --cluster=kubernetes-using-kubeadm \
     --user=admin
 
-  kubectl config use-context kubernetes-the-hard-way
+  kubectl config use-context kubernetes-using-kubeadm
 }
 ```
 
