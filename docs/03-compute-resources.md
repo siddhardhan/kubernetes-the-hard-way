@@ -99,14 +99,14 @@ The compute instances in this lab will be provisioned using [Ubuntu Server](http
 Create three compute instances which will host the Kubernetes control plane:
 
 ```
-for i in 0 1 2; do
+for i in 0; do
   gcloud compute instances create controller-${i} \
     --async \
     --boot-disk-size 200GB \
     --can-ip-forward \
-    --image-family ubuntu-1804-lts \
-    --image-project ubuntu-os-cloud \
-    --machine-type n1-standard-1 \
+    --image-family centos-7 \
+    --image-project centos-cloud \
+    --machine-type n1-standard-2 \
     --private-network-ip 10.240.0.1${i} \
     --scopes compute-rw,storage-ro,service-management,service-control,logging-write,monitoring \
     --subnet kubernetes \
@@ -123,14 +123,14 @@ Each worker instance requires a pod subnet allocation from the Kubernetes cluste
 Create three compute instances which will host the Kubernetes worker nodes:
 
 ```
-for i in 0 1 2; do
+for i in 0 1; do
   gcloud compute instances create worker-${i} \
     --async \
     --boot-disk-size 200GB \
     --can-ip-forward \
-    --image-family ubuntu-1804-lts \
-    --image-project ubuntu-os-cloud \
-    --machine-type n1-standard-1 \
+    --image-family centos-7 \
+    --image-project centos-cloud \
+    --machine-type n1-standard-2 \
     --metadata pod-cidr=10.200.${i}.0/24 \
     --private-network-ip 10.240.0.2${i} \
     --scopes compute-rw,storage-ro,service-management,service-control,logging-write,monitoring \
@@ -151,12 +151,9 @@ gcloud compute instances list
 
 ```
 NAME          ZONE        MACHINE_TYPE   PREEMPTIBLE  INTERNAL_IP  EXTERNAL_IP     STATUS
-controller-0  us-west1-c  n1-standard-1               10.240.0.10  XX.XXX.XXX.XXX  RUNNING
-controller-1  us-west1-c  n1-standard-1               10.240.0.11  XX.XXX.X.XX     RUNNING
-controller-2  us-west1-c  n1-standard-1               10.240.0.12  XX.XXX.XXX.XX   RUNNING
-worker-0      us-west1-c  n1-standard-1               10.240.0.20  XXX.XXX.XXX.XX  RUNNING
-worker-1      us-west1-c  n1-standard-1               10.240.0.21  XX.XXX.XX.XXX   RUNNING
-worker-2      us-west1-c  n1-standard-1               10.240.0.22  XXX.XXX.XX.XX   RUNNING
+controller-0  us-west1-c  n1-standard-2               10.240.0.10  XX.XXX.XXX.XXX  RUNNING
+worker-0      us-west1-c  n1-standard-2               10.240.0.20  XXX.XXX.XXX.XX  RUNNING
+worker-1      us-west1-c  n1-standard-2               10.240.0.21  XX.XXX.XX.XXX   RUNNING
 ```
 
 ## Configuring SSH Access
